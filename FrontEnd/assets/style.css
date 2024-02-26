@@ -211,7 +211,36 @@ input[type="submit"] {
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+}
+
+.filters {
+	margin: auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	width: fit-content;
+	padding-top: 1em;
+	margin-bottom: 3em;
+}
+
+.boutonFiltre {
+	text-align: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #1D6154;
+	background-color: white;
+	width: fit-content;
+	min-width: 100px;
+	border-radius: 60px;
+	border: 1px solid #1D6154;
+	padding: 0.8em 1.8em;
+}
+
+.boutonFiltre:hover {
+	color: white;
+	background-color: #1D6154;
 }
 
 /* Login page */
@@ -226,12 +255,4 @@ footer nav ul {
 
 .login-container {
 	flex: 1;
-}
-
-/*#login-footer {
-	position: absolute;
-    bottom: 0;
-	left: 0;
-	max-width: 1440px;
-	margin: auto;
 }
