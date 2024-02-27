@@ -1,35 +1,16 @@
 
 
-const serverURL = "http://localhost:5678/";
-const users = "users";
-const users_login = "users/login";
-/*const api_categories = "api/categories";*/
-const api_works = "api/works";
+const serverURL = "http://localhost:5678/api/";
+const api_works = "works";
 
 const works = await getContents(api_works);
-const filtres = getCategories(works);
+const filtres = await getCategories(works);
 console.log(filtres);
 afficheFiltres(filtres);
 afficheGallery(works);
+setListenerToFilters();
 
-const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
-setListenerToFilters(boutonsFiltre);
-
-function setListenerToFilters(boutonsFiltre) {
-    boutonsFiltre.forEach(bouton => {
-        bouton.addEventListener('click', () => {
-            console.log(`${bouton.value}`);
-            let worksToDisplay = works.filter((work) => work.category.name === bouton.value);
-            if (worksToDisplay.length === 0) {  /* Cas du bouton "Tous" qui n'appartient pas aux catégories */
-                worksToDisplay = works;
-            }
-            afficheGallery(worksToDisplay);
-        });
-    });
-}
-
-
-async function getContents(whichone) {
+export async function getContents(whichone) {
     const reponse  = await fetch(`${serverURL}${whichone}`).then(reponse => reponse.json());
  
     console.log(`reponse : ${whichone}`);
@@ -88,3 +69,16 @@ function getCategories(works) {
 }
 
 
+function setListenerToFilters() {
+    const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
+    boutonsFiltre.forEach(bouton => {
+        bouton.addEventListener('click', () => {
+            console.log(`${bouton.value}`);
+            let worksToDisplay = works.filter((work) => work.category.name === bouton.value);
+            if (worksToDisplay.length === 0) {  /* Cas du bouton "Tous" qui n'appartient pas aux catégories */
+                worksToDisplay = works;
+            }
+            afficheGallery(worksToDisplay);
+        });
+    });
+}
