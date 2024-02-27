@@ -59,7 +59,7 @@ body {
 	min-height: 100vh;
 }
 
-header {
+.header-container {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0;
@@ -112,7 +112,7 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+li:hover, a:hover {
 	color: #B1663C;
 }
 
@@ -208,10 +208,20 @@ input[type="submit"] {
 	border-radius: 60px;
 }
 
+input[type="submit"]:hover {
+	background-color: #0E2F28;
+	;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
+}
+
+#title-projets-container {
+	display: flex;
+	justify-content: center;
 }
 
 .filters {
