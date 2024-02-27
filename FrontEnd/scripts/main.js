@@ -3,25 +3,45 @@
 const serverURL = "http://localhost:5678/api/";
 const api_works = "works";
 
+let token = window.localStorage.getItem("token");
+check_token();
+
 const works = await getContents(api_works);
 const filtres = await getCategories(works);
-console.log(filtres);
 afficheFiltres(filtres);
 afficheGallery(works);
 setListenerToFilters();
 setOnCloseListener();
 
 
+function check_token() {
+    let loginLink = document.querySelector("#login-link");
+
+    /* gestion du lien login/logout en fonction de la présence du token */
+    if (token !== null) {
+        loginLink.innerHTML = "logout";
+        loginLink.setAttribute("href","#");
+    }
+
+    /* ajout de l'évènement logout */
+    loginLink.addEventListener('click', (event) => {
+        if (loginLink.innerHTML === "logout") {
+            event.preventDefault();
+            window.localStorage.removeItem("token");
+            token = null;
+            loginLink.innerHTML = "login";
+            loginLink.setAttribute("href","login.html");
+        }
+    });
+
+}
+
 export async function getContents(whichone) {
     let reponse = window.localStorage.getItem(whichone);
-    console.log(reponse);
 
     if (reponse === null) {
         reponse = await fetch(`${serverURL}${whichone}`).then(reponse => reponse.json());
         window.localStorage.setItem(whichone,JSON.stringify(reponse));
-
-        console.log(`reponse : ${whichone}`);
-        console.log(reponse);
     } else {
         reponse = JSON.parse(reponse);
     }
@@ -82,7 +102,6 @@ function setListenerToFilters() {
     const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
     boutonsFiltre.forEach(bouton => {
         bouton.addEventListener('click', () => {
-            console.log(`${bouton.value}`);
             let worksToDisplay = works.filter((work) => work.category.name === bouton.value);
             if (worksToDisplay.length === 0) {  /* Cas du bouton "Tous" qui n'appartient pas aux catégories */
                 worksToDisplay = works;
@@ -97,5 +116,6 @@ function setOnCloseListener() {
     /* Nettoyage du localStorage à la fermeture de la page */
     window.addEventListener('beforeunload', (event) => {
         window.localStorage.removeItem(api_works);
+        window.localStorage.removeItem("token");
     });
 }

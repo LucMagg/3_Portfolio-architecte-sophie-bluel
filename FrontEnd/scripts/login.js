@@ -65,6 +65,7 @@ function setListenerToLoginButton() {
                 /*ici on a passé les étapes -> log in OK */
                 errorField.innerHTML = "";
                 errorField.style.backgroundColor = "#FFFEF8";
+                window.localStorage.setItem("token",reponseServer[1]);
                 location.replace("index.html");
             }
             
