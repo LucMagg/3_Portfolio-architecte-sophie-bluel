@@ -9,13 +9,22 @@ console.log(filtres);
 afficheFiltres(filtres);
 afficheGallery(works);
 setListenerToFilters();
+setOnCloseListener();
+
 
 export async function getContents(whichone) {
-    const reponse  = await fetch(`${serverURL}${whichone}`).then(reponse => reponse.json());
- 
-    console.log(`reponse : ${whichone}`);
+    let reponse = window.localStorage.getItem(whichone);
     console.log(reponse);
 
+    if (reponse === null) {
+        reponse = await fetch(`${serverURL}${whichone}`).then(reponse => reponse.json());
+        window.localStorage.setItem(whichone,JSON.stringify(reponse));
+
+        console.log(`reponse : ${whichone}`);
+        console.log(reponse);
+    } else {
+        reponse = JSON.parse(reponse);
+    }
     return reponse;
 }
 
@@ -80,5 +89,13 @@ function setListenerToFilters() {
             }
             afficheGallery(worksToDisplay);
         });
+    });
+}
+
+
+function setOnCloseListener() {
+    /* Nettoyage du localStorage à la fermeture de la page */
+    window.addEventListener('beforeunload', (event) => {
+        window.localStorage.removeItem(api_works);
     });
 }
