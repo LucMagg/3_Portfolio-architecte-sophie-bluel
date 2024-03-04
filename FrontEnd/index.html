@@ -10,10 +10,14 @@
 		<meta name="description" content="">
 		<link rel="stylesheet" href="./assets/style.css">
 		<script src="https://kit.fontawesome.com/b256b28d5f.js" crossorigin="anonymous"></script>
-		<script type="module" src="./scripts/main.js"></script>
+		<script type="module" src="./scripts/pages/index.js"></script>
 	</head>
 	<body>
 		<header>
+			<div id="mode-edition" style="display: none;">
+				<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+				<span>Mode édition</span>
+			</div>
 			<div class="header-container">
 				<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 				<nav>
@@ -41,13 +45,17 @@
 			</section>
 			<section id="portfolio">
 				<div id="title-projets-container">
-					<h2 id="projets">Mes Projets</h2>
+					<h2 id="projets">Mes projets</h2>
+					<a id="modification" href="" style="display: none;">
+						<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+						<span id="modification-text">Modifier</span>
+					</a>
 				</div>
 				<div class="filters">
-				
+					<!-- rempli avec un script js (afficheFiltres) -->
 				</div>
 				<div class="gallery">
-					
+					<!-- rempli avec un script js (afficheGallery) -->
 				</div>
 			</section>
 			<section id="contact">
@@ -63,6 +71,59 @@
 					<input type="submit" value="Envoyer">
 				</form>
 			</section>
+
+			<!-- Partie modales -->
+			<dialog id="modal-gallery" class="modal" aria-labelledby="modal-gallery-title">
+				<div class="modal-container">
+					<p id="modal-gallery-title" class="modal-title">Galerie photo</p>
+					<a href= "" class="modal-closeicon">
+						<i class="fa-solid fa-xmark" aria-hidden = true aria-label="Bouton fermer"></i>
+					</a>
+					<div id="modal-gallery-gallerydisplay">
+						<!-- rempli avec un script js (afficheModalGallery) -->
+						<i class="fa-solid fa-trash-can"></i>
+					</div>
+					<div class="modal-button-container modal-gallery-button-position">
+						<button class="modal-button" id="modal-gallery-button" type="file" value="ajouter une photo">Ajouter une photo</button>
+					</div>
+				</div>
+			</dialog>
+
+			<dialog id="modal-ajoutphoto" class="modal" aria-labelledby="modal-ajoutphoto-title">
+				<div class="modal-container">
+					<p id="modal-ajoutphoto-title" class="modal-title">Ajout photo</p>
+					<a href= "" id="modal-ajoutphoto-backicon">
+						<i class="fa-solid fa-arrow-left" aria-hidden = true aria-label="Bouton retour"></i>
+					</a>
+					<a href= "" class="modal-closeicon">
+						<i class="fa-solid fa-xmark" aria-hidden = true aria-label="Bouton fermer"></i>
+					</a>
+					<form action="#" method="post">				
+						<div id="modal-ajoutphoto-addphoto-container">
+							<i class="fa-regular fa-image icon-picture"></i>
+							<button id="modal-ajoutphoto-addphoto-button" type="button" value="Ajouter photo">+ Ajouter photo</button>
+							<input id="modal-ajoutphoto-addphoto-hidden" type="file" name="upload" id="upload" accept=".jpg, .png" tabindex="-1">
+							<p id="modal-ajoutphoto-addphoto-info">jpg, png : 4mo max</p>
+						</div>
+						<label for="modal-ajoutphoto-titre">Titre</label>
+						<input type="text" name="modal-ajoutphoto-titre" id="modal-ajoutphoto-titre">
+						<label for="modal-ajoutphoto-categorie">Catégorie</label>
+						<select name="modal-ajoutphoto-categorie" id="modal-ajoutphoto-categorie">
+							<!-- rempli avec un script js (afficheModalCategories)-->
+						</select>
+						<div class="modal-button-container modal-ajoutphoto-button-position">
+							<input class="modal-button" id="modal-ajoutphoto-valider" type="submit" value="Valider">
+						</div>
+					</form>
+				</div>
+			</dialog>
+
+			<dialog id="modal-error" aria-labelledby="modal-error-title">
+				<p id="modal-error-title">Erreur</p>
+				<p id="modal-error-message"></p>
+				<button id="modal-error-close" type="button">Fermer</button>
+			</dialog>
+
 		</main>
 
 		<footer>

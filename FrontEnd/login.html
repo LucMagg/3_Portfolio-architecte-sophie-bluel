@@ -9,7 +9,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 		<meta name="description" content="">
 		<link rel="stylesheet" href="./assets/style.css">
-		<script type="module" src="./scripts/login.js"></script>
+		<script type="module" src="./scripts/pages/login.js"></script>
 	</head>
 	<body>
 		<header class="header-container">
@@ -31,9 +31,9 @@
 					<label for="email">E-mail</label>
 					<input type="text" name="email" id="email" autocomplete="username">
 					<label for="password">Mot de passe</label>
-					<input type="password" name="password" id="password" autocomplete="username">
+					<input type="password" name="password" id="password" autocomplete="current-password">
 					<input type="submit" value="Se connecter">
-					<a href="" class="forgot-password">Mot de passe oublié</a>
+					<a href="" id="forgot-password">Mot de passe oublié</a>
 				</form>
 				<p id="login-message"></p>
 			</section>
