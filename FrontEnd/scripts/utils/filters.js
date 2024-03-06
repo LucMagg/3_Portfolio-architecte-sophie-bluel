@@ -1,3 +1,5 @@
+import { getContents } from "./api.js";
+
 const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
 const filterContainer = document.querySelector(".filters");
 const gallery = document.querySelector(".gallery");
@@ -11,7 +13,8 @@ function getCategories(works) {
     return Array.from(reponse);
 }
 
-function displayFilters(works) {
+async function displayFilters() {
+    const works = await getContents();
     let filtres = getCategories(works);
     filterContainer.innerHTML = "";
 
@@ -29,14 +32,13 @@ function displayFilters(works) {
     }
 }
 
-
 function createFilterListener(works, filterButton) {
     return function() {
         filtreGallery(works, filterButton);
     };
 }
 
-function filtreGallery(works, filterButton) {
+async function filtreGallery(works, filterButton) {
     let worksToDisplay = works.filter((work) => work.category.name === filterButton.value);
     if (worksToDisplay.length === 0) {  /* Cas du bouton "Tous" qui n'appartient pas aux catégories */
         worksToDisplay = works;
@@ -44,17 +46,20 @@ function filtreGallery(works, filterButton) {
     displayGallery(worksToDisplay);
 }
 
-function removeFilters(works) {
+function removeFilters() {
     filterContainer.innerHTML = "";
     
     boutonsFiltre.forEach(filterButton => {
-        bouton.removeEventListener('click', createFilterListener(works, filterButton));
+        bouton.removeEventListener('click', createFilterListener(filterButton));
     });
 }
 
 
-function displayGallery(works) {
+async function displayGallery(works) {
     /* Effacement du contenu de la galerie */
+    if (works === undefined) {
+        works = await getContents();
+    }
     gallery.innerHTML = "";
 
     for (let i = 0; i < works.length; i++) {

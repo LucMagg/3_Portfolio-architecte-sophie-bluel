@@ -1,5 +1,5 @@
 import { displayFilters, removeFilters } from "./filters.js";
-import { setModifListener } from "./modals.js";
+import { setModifListener, unsetModifListener } from "./modal-gallery.js";
 
 const loginLink = document.getElementById("login-link");
 const fixedEditionBar = document.getElementById("mode-edition");
@@ -8,7 +8,7 @@ const modifLink = document.getElementById("modification");
 
 let token = window.localStorage.getItem("token");
 
-function loginFunction(works) {
+function loginFunction() {
     /* Gestion du log in */
     loginLink.innerHTML = "logout";
     loginLink.setAttribute("href","#");
@@ -20,11 +20,11 @@ function loginFunction(works) {
 
     /* Suppression des filtres */
     removeFilters();
-    setModifListener(works);
+    setModifListener();
 }
 
 
-function logoutFunction(works) {
+function logoutFunction() {
     /* Gestion du log out */
     window.localStorage.removeItem("token");
     token = null;
@@ -36,23 +36,25 @@ function logoutFunction(works) {
 
     modifLink.style.display = "none";
 
-    displayFilters(works);
+    unsetModifListener();
+    
+    location.replace("login.html");
 }
 
 
-function check_token(works) {
+function check_token() {
     /* gestion du lien login/logout en fonction de la présence du token */
     if (token !== null) {
-        loginFunction(works);
+        loginFunction();
     } else {
-        displayFilters(works);
+        displayFilters();
     }
 
     /* ajout de l'évènement logout */
     loginLink.addEventListener('click', (event) => {
         if (loginLink.innerHTML === "logout") {
             event.preventDefault();
-            logoutFunction(works);
+            logoutFunction();
         }
     });
 }

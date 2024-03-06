@@ -4,7 +4,6 @@ const loginForm = document.querySelector(".login-form");
 
 const submitLogin = async function (event) {
     event.preventDefault();
-
     
     let return_msg = "";
     /* Check des potentielles erreurs du formulaire de login */
@@ -28,7 +27,7 @@ const submitLogin = async function (event) {
         } else {
             errorField.innerHTML = "";
             errorField.style.backgroundColor = "#FFFEF8";
-            window.localStorage.setItem("token",reponseServer[1]);
+            window.localStorage.setItem("token", reponseServer[1]);
             location.replace("index.html");
         }
     }
