@@ -4,18 +4,18 @@ const users_login = "users/login";
 const categories = "categories";
 
 
-async function checkLogin(user,pwd) {
 
+async function checkLogin(user,pwd) {
+    /* POST login */
     let toCheck = JSON.stringify({
         email: user,
         password: pwd
     });
-
     let reponse = await fetch(`${serverURL}${users_login}`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: toCheck});
- 
+
     let to_return = Array();
     switch (reponse.status) {
         case 200: {
@@ -25,6 +25,7 @@ async function checkLogin(user,pwd) {
         }
         default: {
             to_return = [false, "L'adresse e-mail ou le mot de passe est erroné"];
+            console.clear();
             break;
         }
     }
@@ -34,12 +35,14 @@ async function checkLogin(user,pwd) {
 
 
 async function getContents() {
+    /* GET works */
     let reponse = await fetch(`${serverURL}${api_works}`).then(reponse => reponse.json());
     return reponse;
 }
 
 
 async function deleteItem(id) {
+    /* DELETE works */
     let token = window.localStorage.getItem("token");
 
     let reponse = await fetch (`${serverURL}${api_works}\\${id}`, {
@@ -57,7 +60,9 @@ async function deleteItem(id) {
     }
 }
 
+
 async function appendItem(image, title, category) {
+    /* POST works */
     let token = window.localStorage.getItem("token");
     let categoryId = await(getIdFromCategorie(category));
 
@@ -78,7 +83,9 @@ async function appendItem(image, title, category) {
     }          
 }
 
+
 async function getIdFromCategorie(category) {
+    /* GET categories id */
     let allCategories = await fetch(`${serverURL}${categories}`).then(reponse => reponse.json());
     let to_return = "";
     let i = 0;
@@ -91,5 +98,7 @@ async function getIdFromCategorie(category) {
     };
     return to_return;
 }
+
+
 
 export { checkLogin, getContents, deleteItem, appendItem };

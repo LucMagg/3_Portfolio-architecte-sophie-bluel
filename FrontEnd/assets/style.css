@@ -276,8 +276,8 @@ footer nav ul {
 	height: 3em;
 	padding-top: 1.5em;
 	text-align: center;
-	background-color: #FFFEF8;
-	color: rgba(255,0,0,1);
+	background-color: rgba(255,0,0,0.1);
+	color: #FF0000;
 }
 
 

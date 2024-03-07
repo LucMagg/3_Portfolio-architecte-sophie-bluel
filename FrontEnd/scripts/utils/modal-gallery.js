@@ -11,18 +11,22 @@ const modalButton = document.getElementById("modal-gallery-button");
 const modalCloseButton = document.getElementById("modal-gallery-closeicon");
 
 
+
 function setModifListener() {
     modifLink.addEventListener('click', modifListener);
 }
+
 
 function unsetModifListener() {
     modifLink.removeEventListener('click', modifListener);
 }
 
+
 const modifListener = function(event) {
     event.preventDefault();
     openModalGallery();
 }
+
 
 function openModalGallery() { 
     modalGallery.showModal();
@@ -30,11 +34,13 @@ function openModalGallery() {
     afficheModalGallery();
 }
 
+
 function closeModalGallery() {
     modalGallery.close();
     unsetListeners();
     displayGallery();
 }
+
 
 function setListeners() {
     modalGallery.addEventListener("click", closeListener);
@@ -43,6 +49,7 @@ function setListeners() {
     modalButton.addEventListener("click", openNextModal);
 }
 
+
 function unsetListeners() {
     modalGallery.removeEventListener("click", closeListener);
     modalContainer.removeEventListener("click", modalStop);
@@ -50,20 +57,24 @@ function unsetListeners() {
     modalButton.removeEventListener("click", openNextModal);
 }
 
+
 const closeListener = function(event) {
     event.preventDefault();
     closeModalGallery();
 }
 
+
 const modalStop = function(event) {
     event.stopPropagation();
 }
+
 
 const openNextModal = function(event) {
     event.preventDefault();
     modalGallery.close();
     openModalAddPhoto();
 }
+
 
 async function afficheModalGallery() {
     modalGalleryDisplay.innerHTML = "";
@@ -95,9 +106,11 @@ async function afficheModalGallery() {
     }
 }
 
+
 function setDeleteListener(button, id) {
     button.addEventListener('click', deleteGalleryItem(id));
 }
+
 
 function deleteGalleryItem(id) {
     return async function (event) {
@@ -109,5 +122,7 @@ function deleteGalleryItem(id) {
         };
     }
 }
+
+
 
 export { setModifListener, unsetModifListener, openModalGallery };

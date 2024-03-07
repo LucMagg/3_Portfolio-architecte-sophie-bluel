@@ -4,6 +4,8 @@ const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
 const filterContainer = document.querySelector(".filters");
 const gallery = document.querySelector(".gallery");
 
+
+
 function getCategories(works) {
     let reponse = new Set();
     reponse.add("Tous");
@@ -12,6 +14,7 @@ function getCategories(works) {
     }
     return Array.from(reponse);
 }
+
 
 async function displayFilters() {
     const works = await getContents();
@@ -32,11 +35,13 @@ async function displayFilters() {
     }
 }
 
+
 function createFilterListener(works, filterButton) {
     return function() {
         filtreGallery(works, filterButton);
     };
 }
+
 
 async function filtreGallery(works, filterButton) {
     let worksToDisplay = works.filter((work) => work.category.name === filterButton.value);
@@ -45,6 +50,7 @@ async function filtreGallery(works, filterButton) {
     }
     displayGallery(worksToDisplay);
 }
+
 
 function removeFilters() {
     filterContainer.innerHTML = "";
@@ -56,7 +62,6 @@ function removeFilters() {
 
 
 async function displayGallery(works) {
-    /* Effacement du contenu de la galerie */
     if (works === undefined) {
         works = await getContents();
     }
@@ -77,6 +82,7 @@ async function displayGallery(works) {
         galleryElement.appendChild(title);
     }
 }
+
 
 
 export { getCategories, displayFilters, removeFilters, displayGallery }

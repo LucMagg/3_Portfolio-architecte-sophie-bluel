@@ -27,6 +27,7 @@ function openModalAddPhoto() {
     showContainerItems();
 }
 
+
 function closeModalAddPhoto() {
     modalAddPhoto.close();
     unsetListeners();
@@ -34,6 +35,7 @@ function closeModalAddPhoto() {
     showContainerItems();
     modalForm.reset();
 }
+
 
 function setListeners() {
     modalAddPhoto.addEventListener("click", closeListener);
@@ -49,6 +51,7 @@ function setListeners() {
     desactivateSubmitButton();
 }
 
+
 function unsetListeners() {
     modalAddPhoto.removeEventListener("click", closeListener);
     modalContainer.removeEventListener("click", modalStop);
@@ -63,15 +66,18 @@ function unsetListeners() {
     desactivateSubmitButton();
 }
 
+
 const closeListener = function(event) {
     event.preventDefault();
     closeModalAddPhoto();
     displayGallery();
 }
 
+
 const modalStop = function(event) {
     event.stopPropagation();
 }
+
 
 const openLastModal = function(event) {
     event.preventDefault();
@@ -79,9 +85,11 @@ const openLastModal = function(event) {
     openModalGallery();
 }
 
+
 const addPhoto = function() {
     modalFormInputFileHidden.click();
 }
+
 
 async function afficheModalCategories() {
     let filtres = getCategories(await getContents());
@@ -101,6 +109,7 @@ async function afficheModalCategories() {
     }
 }
 
+
 const checkNewPhoto = function() {
     let uploadedFile = modalFormInputFileHidden.files[0];
     if (uploadedFile !== null) {
@@ -114,6 +123,7 @@ const checkNewPhoto = function() {
     }
 }
 
+
 function displayFileError(message) {
     modalFormInputFileHidden.value = "";
     modalErrorField.removeAttribute("style");
@@ -121,11 +131,13 @@ function displayFileError(message) {
     modalAjoutPhotoContainer.querySelector("i").style.opacity = "0";
 }
 
+
 function hideFileError() {
     modalErrorField.style.display = "None";
     modalErrorField.innerHTML = "";
     modalAjoutPhotoContainer.querySelector("i").removeAttribute("style");
 }
+
 
 function showContainerItems() {
     for (let i = 0; i < modalAjoutPhotoContainer.children.length; i++) {
@@ -136,6 +148,7 @@ function showContainerItems() {
     hideFileError();
 }
 
+
 function hideContainerItems() {
     hideFileError();
     for (let i = 0; i < modalAjoutPhotoContainer.children.length; i++) {
@@ -144,6 +157,7 @@ function hideContainerItems() {
         }
     };
 }
+
 
 function displayPreview(uploadedFile) {
     const previewImage = document.createElement("img");
@@ -155,12 +169,14 @@ function displayPreview(uploadedFile) {
     modalAjoutPhotoContainer.appendChild(previewImage);
 }
 
+
 function removePreview() {
     let preview = document.getElementById("modal-ajoutphoto-preview");
     if (preview !== null) {
         preview.remove();
     }
 }
+
 
 const checkFormChange = function () {
     if (!(modalFormInputFileHidden.files[0] === undefined) && !(modalFormTitle.value === null || modalFormTitle.value === "") && !(modalFormSelector.value === "")) {
@@ -170,13 +186,16 @@ const checkFormChange = function () {
     }
 }
 
+
 function activateSubmitButton() {
     modalSubmitButton.setAttribute("class","modal-button button-enabled");
 }
 
+
 function desactivateSubmitButton() {
     modalSubmitButton.setAttribute("class","modal-button button-disabled");
 }
+
 
 const submitNewPhoto = async function(event) {
     event.preventDefault();
@@ -188,5 +207,7 @@ const submitNewPhoto = async function(event) {
         }
     }
 }
+
+
 
 export { openModalAddPhoto };
