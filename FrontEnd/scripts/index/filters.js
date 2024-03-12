@@ -1,33 +1,24 @@
-import { getContents } from "./api.js";
+import { displayGallery, getCategories } from "../utils/gallery.js";
+import { getContents } from "../utils/api.js";
 
 const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
 const filterContainer = document.querySelector(".filters");
-const gallery = document.querySelector(".gallery");
 
-
-
-function getCategories(works) {
-    let reponse = new Set();
-    reponse.add("Tous");
-    for (let i = 0; i < works.length; i++) {
-        reponse.add(works[i].category.name);
-    }
-    return Array.from(reponse);
-}
 
 
 async function displayFilters() {
     const works = await getContents();
     let filtres = getCategories(works);
+    
     filterContainer.innerHTML = "";
 
     for (let i = 0; i < filtres.length; i++) {
         /* Construction du html de chaque filtre */
         const filterButton = document.createElement("button");
         filterButton.setAttribute("type", "button");
-        filterButton.setAttribute("value", filtres[i]);
+        filterButton.setAttribute("value", filtres[i].name);
         filterButton.setAttribute("class", "boutonFiltre");
-        filterButton.innerText = filtres[i];
+        filterButton.innerText = filtres[i].name;
 
         /* Ajout dans le DOM */
         filterContainer.appendChild(filterButton);
@@ -61,28 +52,5 @@ function removeFilters() {
 }
 
 
-async function displayGallery(works) {
-    if (works === undefined) {
-        works = await getContents();
-    }
-    gallery.innerHTML = "";
 
-    for (let i = 0; i < works.length; i++) {
-        /* Construction du html de chaque photo */
-        const galleryElement = document.createElement("figure");
-        const image = document.createElement("img");
-        image.setAttribute("src", works[i].imageUrl);
-        image.setAttribute("alt", works[i].title);
-        const title = document.createElement("figcaption");
-        title.innerText = works[i].title;
-
-        /* Ajout dans le DOM */
-        gallery.appendChild(galleryElement);
-        galleryElement.appendChild(image);
-        galleryElement.appendChild(title);
-    }
-}
-
-
-
-export { getCategories, displayFilters, removeFilters, displayGallery }
+export { displayFilters, removeFilters };

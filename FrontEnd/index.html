@@ -10,7 +10,7 @@
 		<meta name="description" content="">
 		<link rel="stylesheet" href="./assets/style.css">
 		<script src="https://kit.fontawesome.com/b256b28d5f.js" crossorigin="anonymous"></script>
-		<script type="module" src="./scripts/pages/index.js"></script>
+		<script type="module" src="./scripts/index/index.js"></script>
 	</head>
 	<body>
 		<header>
@@ -32,7 +32,7 @@
 		</header>
 		
 		<main>
-			<section id="introduction" aria-labelledby="introduction-title">
+			<section id="introduction">
 				<figure>
 					<img src="./assets/images/sophie-bluel.png" alt="photo de Sophie Bluel">
 				</figure>
@@ -44,11 +44,11 @@
 				</article>
 			</section>
 			<section id="portfolio">
-				<div id="title-projets-container">
-					<h2 id="projets">Mes projets</h2>
-					<a id="modification" href="" style="display: none;">
+				<div id="portfolio-title-container">
+					<h2>Mes projets</h2>
+					<a id="portfolio-title-modification" href="" style="display: none;">
 						<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-						<span id="modification-text">Modifier</span>
+						<span id="portfolio-title-modification-text">Modifier</span>
 					</a>
 				</div>
 				<div class="filters">
@@ -116,7 +116,7 @@
 							<!-- rempli avec un script js (afficheModalCategories)-->
 						</select>
 						<div class="modal-button-container modal-ajoutphoto-button-position">
-							<input class="modal-button bouton-disabled" id="modal-ajoutphoto-valider" type="submit" value="Valider">
+							<input class="modal-button button-disabled" id="modal-ajoutphoto-valider" type="submit" value="Valider">
 						</div>
 					</form>
 				</div>

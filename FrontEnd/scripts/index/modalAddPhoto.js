@@ -1,6 +1,7 @@
-import { getContents, appendItem } from "./api.js";
-import { getCategories, displayGallery } from "./filters.js";
-import { openModalGallery } from "./modal-gallery.js";
+import { getContents, appendItem } from "../utils/api.js";
+import { openModalGallery } from "./modalGallery.js";
+import { displayGallery, getCategories } from "../utils/gallery.js";
+
 
 const modalAddPhoto = document.getElementById("modal-ajoutphoto");
 const modalContainer = document.getElementById("modal-ajoutphoto-container");
@@ -8,7 +9,7 @@ const modalCloseButton = document.getElementById("modal-ajoutphoto-closeicon");
 const modalBackButton = document.getElementById("modal-ajoutphoto-backicon");
 const modalForm = document.getElementById("modal-ajoutphoto-form");
 const modalFormTitle = document.getElementById("modal-ajoutphoto-titre");
-const modalAjoutPhotoContainer = document.getElementById("modal-ajoutphoto-addphoto-container");
+const modalAddPhotoContainer = document.getElementById("modal-ajoutphoto-addphoto-container");
 const modalFormInputFileHidden = document.getElementById("modal-ajoutphoto-addphoto-hidden");
 const modalErrorField = document.getElementById("modal-ajoutphoto-errorfield");
 const modalAddPhotoButton = document.getElementById("modal-ajoutphoto-addphoto-button");
@@ -22,25 +23,24 @@ const authorisedUploadFileExtensions = ['png','jpg'];
 
 function openModalAddPhoto() {
     modalAddPhoto.showModal();
-    setListeners();
-    afficheModalCategories();
+    displayModalCategories();
     showContainerItems();
 }
 
 
 function closeModalAddPhoto() {
     modalAddPhoto.close();
-    unsetListeners();
     removePreview();
     showContainerItems();
     modalForm.reset();
+    desactivateSubmitButton();
 }
 
 
-function setListeners() {
-    modalAddPhoto.addEventListener("click", closeListener);
-    modalContainer.addEventListener("click", modalStop);
-    modalCloseButton.addEventListener("click", closeListener);
+function setModalAddPhotoListeners() {
+    modalAddPhoto.addEventListener("click", closeModalListener);
+    modalContainer.addEventListener("click", modalPropagationStop);
+    modalCloseButton.addEventListener("click", closeModalListener);
     modalBackButton.addEventListener("click", openLastModal);
     modalAddPhotoButton.addEventListener("click", addPhoto);
     modalFormInputFileHidden.addEventListener("change", checkNewPhoto);
@@ -52,29 +52,14 @@ function setListeners() {
 }
 
 
-function unsetListeners() {
-    modalAddPhoto.removeEventListener("click", closeListener);
-    modalContainer.removeEventListener("click", modalStop);
-    modalCloseButton.removeEventListener("click", closeListener);
-    modalBackButton.removeEventListener("click", openLastModal);
-    modalAddPhotoButton.removeEventListener("click", addPhoto);
-    modalFormInputFileHidden.removeEventListener("change", checkNewPhoto);
-    modalFormInputFileHidden.removeEventListener("change", checkFormChange);
-    modalFormTitle.removeEventListener("change", checkFormChange);
-    modalFormSelector.removeEventListener("change", checkFormChange);
-    modalSubmitButton.removeEventListener("click", submitNewPhoto);
-    desactivateSubmitButton();
-}
-
-
-const closeListener = function(event) {
+const closeModalListener = function(event) {
     event.preventDefault();
     closeModalAddPhoto();
     displayGallery();
 }
 
 
-const modalStop = function(event) {
+const modalPropagationStop = function(event) {
     event.stopPropagation();
 }
 
@@ -91,19 +76,22 @@ const addPhoto = function() {
 }
 
 
-async function afficheModalCategories() {
+async function displayModalCategories() {
     let filtres = getCategories(await getContents());
     modalFormSelector.innerHTML = "";
 
     let optionText = "";
+    let optionValue = "";
     for (let i = 0; i < filtres.length; i++) {
-        if (filtres[i] === 'Tous') {
-            optionText = "";
+        if (filtres[i].name !== "Tous") {
+            optionText = filtres[i].name;
+            optionValue = filtres[i].id;
         } else {
-            optionText = filtres[i];
+            optionText = "";
+            optionValue = "0";
         }
         const option = document.createElement("option");
-        option.setAttribute("value", optionText);
+        option.setAttribute("value", optionValue);
         option.innerText = optionText;
         modalFormSelector.appendChild(option);
     }
@@ -128,21 +116,21 @@ function displayFileError(message) {
     modalFormInputFileHidden.value = "";
     modalErrorField.removeAttribute("style");
     modalErrorField.innerHTML = message;
-    modalAjoutPhotoContainer.querySelector("i").style.opacity = "0";
+    modalAddPhotoContainer.querySelector("i").style.opacity = "0";
 }
 
 
 function hideFileError() {
     modalErrorField.style.display = "None";
     modalErrorField.innerHTML = "";
-    modalAjoutPhotoContainer.querySelector("i").removeAttribute("style");
+    modalAddPhotoContainer.querySelector("i").removeAttribute("style");
 }
 
 
 function showContainerItems() {
-    for (let i = 0; i < modalAjoutPhotoContainer.children.length; i++) {
-        if (modalAjoutPhotoContainer.children[i].id !== "modal-ajoutphoto-errorfield") {
-            modalAjoutPhotoContainer.children[i].removeAttribute("style");
+    for (let i = 0; i < modalAddPhotoContainer.children.length; i++) {
+        if (modalAddPhotoContainer.children[i].id !== "modal-ajoutphoto-errorfield") {
+            modalAddPhotoContainer.children[i].removeAttribute("style");
         }
     };
     hideFileError();
@@ -151,9 +139,9 @@ function showContainerItems() {
 
 function hideContainerItems() {
     hideFileError();
-    for (let i = 0; i < modalAjoutPhotoContainer.children.length; i++) {
-        if (modalAjoutPhotoContainer.children[i].id !== "modal-ajoutphoto-errorfield") {
-            modalAjoutPhotoContainer.children[i].style.display = "None";
+    for (let i = 0; i < modalAddPhotoContainer.children.length; i++) {
+        if (modalAddPhotoContainer.children[i].id !== "modal-ajoutphoto-errorfield") {
+            modalAddPhotoContainer.children[i].style.display = "None";
         }
     };
 }
@@ -166,7 +154,7 @@ function displayPreview(uploadedFile) {
     previewImage.setAttribute("id", "modal-ajoutphoto-preview");
     
     hideContainerItems();
-    modalAjoutPhotoContainer.appendChild(previewImage);
+    modalAddPhotoContainer.appendChild(previewImage);
 }
 
 
@@ -179,7 +167,7 @@ function removePreview() {
 
 
 const checkFormChange = function () {
-    if (!(modalFormInputFileHidden.files[0] === undefined) && !(modalFormTitle.value === null || modalFormTitle.value === "") && !(modalFormSelector.value === "")) {
+    if ((modalFormInputFileHidden.files[0] !== undefined) && (modalFormTitle.value !== "") && (modalFormSelector.value !== "0")) {
         activateSubmitButton();
     } else {
         desactivateSubmitButton();
@@ -188,18 +176,18 @@ const checkFormChange = function () {
 
 
 function activateSubmitButton() {
-    modalSubmitButton.setAttribute("class","modal-button button-enabled");
+    modalSubmitButton.classList.replace("button-disabled", "button-enabled");
 }
 
 
 function desactivateSubmitButton() {
-    modalSubmitButton.setAttribute("class","modal-button button-disabled");
+    modalSubmitButton.classList.replace("button-enabled", "button-disabled");
 }
 
 
 const submitNewPhoto = async function(event) {
     event.preventDefault();
-    if (modalSubmitButton.getAttribute("class") === "modal-button button-enabled") {
+    if (modalSubmitButton.classList.contains("button-enabled")) {
         let isOk = await appendItem(modalFormInputFileHidden.files[0], modalFormTitle.value, modalFormSelector.value);
         if (isOk) {
             closeModalAddPhoto();
@@ -210,4 +198,4 @@ const submitNewPhoto = async function(event) {
 
 
 
-export { openModalAddPhoto };
+export { openModalAddPhoto, setModalAddPhotoListeners };

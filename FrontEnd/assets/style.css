@@ -65,7 +65,7 @@ body {
 	margin: 50px 0;
 }
 
-main{
+main {
 	flex: 1;
 }
 
@@ -78,7 +78,7 @@ a {
     text-decoration: none;
 }
 
-h1{
+h1 {
 	display: flex;
 	flex-direction: column;
 	font-family: 'Syne';
@@ -221,7 +221,7 @@ footer nav ul {
 	margin: 2em;
 }
 
-#title-projets-container {
+#portfolio-title-container {
 	display: flex;
 	justify-content: center;
 	margin-top: 10em;
@@ -296,12 +296,12 @@ footer nav ul {
 	color: rgb(255, 255, 255);
 }
 
-#modification {
+#portfolio-title-modification {
 	padding-left: 2em;
 	padding-top: 0.6em;
 }
 
-#modification-text {
+#portfolio-title-modification-text {
 	padding-left: 1em;
 	padding-top: 0;
 }

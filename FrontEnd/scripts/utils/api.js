@@ -1,7 +1,6 @@
 const serverURL = "http://localhost:5678/api/";
 const api_works = "works";
 const users_login = "users/login";
-const categories = "categories";
 
 
 
@@ -61,10 +60,9 @@ async function deleteItem(id) {
 }
 
 
-async function appendItem(image, title, category) {
+async function appendItem(image, title, categoryId) {
     /* POST works */
     let token = window.localStorage.getItem("token");
-    let categoryId = await(getIdFromCategorie(category));
 
     let formData = new FormData();
     formData.append("image", image);
@@ -81,22 +79,6 @@ async function appendItem(image, title, category) {
     } else {
         return false;
     }          
-}
-
-
-async function getIdFromCategorie(category) {
-    /* GET categories id */
-    let allCategories = await fetch(`${serverURL}${categories}`).then(reponse => reponse.json());
-    let to_return = "";
-    let i = 0;
-    while (to_return === "") {
-        if (allCategories[i].name === category) {
-            to_return = allCategories[i].id;
-        } else {
-            i++;
-        }
-    };
-    return to_return;
 }
 
 
