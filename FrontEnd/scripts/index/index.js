@@ -4,9 +4,9 @@ import { displayGallery } from "../utils/gallery.js";
 import { displayFilters, removeFilters } from "./filters.js";
 
 const loginLink = document.getElementById("login-link");
-const fixedEditionBar = document.getElementById("mode-edition");
-const headerContainer = document.querySelector(".header-container");
-const modifLink = document.getElementById("portfolio-title-modification");
+const fixedEditionBar = document.getElementById("header__mode-edition");
+const headerContainer = document.getElementById("header__container");
+const modifLink = document.getElementById("portfolio__title__modification");
 
 
 
@@ -21,7 +21,6 @@ function loginFunction() {
     modifLink.removeAttribute("style");
 
     removeFilters();
-    setModifListener();
 }
 
 
@@ -35,14 +34,12 @@ function logoutFunction() {
     headerContainer.removeAttribute("style");
 
     modifLink.style.display = "none";
-
-    unsetModifListener();
     
     location.replace("login.html");
 }
 
 
-function check_token() {
+function checkToken() {
     /* gestion du lien login/logout en fonction de la présence du token */
     let token = window.localStorage.getItem("token");
 
@@ -59,33 +56,23 @@ function check_token() {
 }
 
 
-function setOnCloseListener() {
-    /* Nettoyage du localStorage à la fermeture de la page */
+function setIndexListeners() {
     window.addEventListener('beforeunload', () => {
         window.localStorage.removeItem("token");
+    });
+
+    modifLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        openModalGallery();
     });
 }
 
 
-const modifListener = function(event) {
-    event.preventDefault();
-    openModalGallery();
-}
-
-
-function setModifListener() {
-    modifLink.addEventListener('click', modifListener);
-}
-
-
-function unsetModifListener() {
-    modifLink.removeEventListener('click', modifListener);
-}
 
 
 
-check_token();
+checkToken();
 displayGallery();
-setOnCloseListener();
+setIndexListeners();
 setModalGalleryListeners();
 setModalAddPhotoListeners();

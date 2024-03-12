@@ -1,7 +1,7 @@
 import { getContents } from "./api.js";
 
-const gallery = document.querySelector(".gallery");
-const modalGalleryDisplay = document.getElementById("modal-gallery-gallerydisplay");
+const gallery = document.getElementById("portfolio__gallery");
+const modalGalleryDisplay = document.getElementById("modal-gallery__gallerydisplay");
 
 
 async function displayGallery(works) {
@@ -28,7 +28,7 @@ async function displayGallery(works) {
 
 
 function getCategories(works) {
-    let toReturn = [{"id":0,"name":"Tous"}];
+    let toReturn = [{"id": 0, "name": "Tous"}];
     for (let i = 0; i < works.length; i++) {
         if (!toReturn.some(item => item.id === works[i].category.id)) {
             toReturn.push(works[i].category);
@@ -49,15 +49,15 @@ async function displayModalGallery(works) {
     for (let i = 0; i < works.length; i++) {
         /* Construction du html de chaque photo */
         const galleryElement = document.createElement("figure");
-        galleryElement.setAttribute("class", "modal-gallerydisplay-item");
+        galleryElement.classList.add("modal-gallery__gallerydisplay__item");
         const image = document.createElement("img");
         image.setAttribute("src", works[i].imageUrl);
         image.setAttribute("alt", works[i].title);
         image.setAttribute("id", "gallery-id-" + works[i].id);
         const delButton = document.createElement("button");
         delButton.setAttribute("type", "button");
-        delButton.setAttribute("class", "modal-gallerydisplay-item-deletebutton");
-        delButton.setAttribute("id", "modal-gallery-delbutton#" + works[i].id);
+        delButton.setAttribute("class", "modal-gallery__gallerydisplay__item__deletebutton");
+        delButton.setAttribute("id", "modal-gallery__gallerydisplay__item__deletebutton#" + works[i].id);
         let icon = document.createElement("i");
         icon.setAttribute("class","fa-solid fa-trash-can trash-icon");
         icon.setAttribute("aria-hidden", "true");

@@ -1,24 +1,24 @@
 import { displayGallery, getCategories } from "../utils/gallery.js";
 import { getContents } from "../utils/api.js";
 
-const boutonsFiltre = document.querySelectorAll(".boutonFiltre");
-const filterContainer = document.querySelector(".filters");
+
+const filterContainer = document.getElementById("portfolio__filters");
 
 
 
 async function displayFilters() {
     const works = await getContents();
-    let filtres = getCategories(works);
+    let filterList = getCategories(works);
     
     filterContainer.innerHTML = "";
 
-    for (let i = 0; i < filtres.length; i++) {
+    for (let i = 0; i < filterList.length; i++) {
         /* Construction du html de chaque filtre */
         const filterButton = document.createElement("button");
         filterButton.setAttribute("type", "button");
-        filterButton.setAttribute("value", filtres[i].name);
-        filterButton.setAttribute("class", "boutonFiltre");
-        filterButton.innerText = filtres[i].name;
+        filterButton.setAttribute("value", filterList[i].name);
+        filterButton.classList.add("portfolio__filters__button");
+        filterButton.innerText = filterList[i].name;
 
         /* Ajout dans le DOM */
         filterContainer.appendChild(filterButton);
@@ -29,12 +29,12 @@ async function displayFilters() {
 
 function createFilterListener(works, filterButton) {
     return function() {
-        filtreGallery(works, filterButton);
+        filterGallery(works, filterButton);
     };
 }
 
 
-async function filtreGallery(works, filterButton) {
+async function filterGallery(works, filterButton) {
     let worksToDisplay = works.filter((work) => work.category.name === filterButton.value);
     if (worksToDisplay.length === 0) {  /* Cas du bouton "Tous" qui n'appartient pas aux catégories */
         worksToDisplay = works;
@@ -46,6 +46,7 @@ async function filtreGallery(works, filterButton) {
 function removeFilters() {
     filterContainer.innerHTML = "";
     
+    let boutonsFiltre = document.querySelectorAll(".portfolio__filters__button");
     boutonsFiltre.forEach(filterButton => {
         bouton.removeEventListener('click', createFilterListener(filterButton));
     });

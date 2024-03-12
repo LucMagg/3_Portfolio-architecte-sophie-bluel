@@ -3,18 +3,18 @@ import { openModalGallery } from "./modalGallery.js";
 import { displayGallery, getCategories } from "../utils/gallery.js";
 
 
-const modalAddPhoto = document.getElementById("modal-ajoutphoto");
-const modalContainer = document.getElementById("modal-ajoutphoto-container");
-const modalCloseButton = document.getElementById("modal-ajoutphoto-closeicon");
-const modalBackButton = document.getElementById("modal-ajoutphoto-backicon");
-const modalForm = document.getElementById("modal-ajoutphoto-form");
-const modalFormTitle = document.getElementById("modal-ajoutphoto-titre");
-const modalAddPhotoContainer = document.getElementById("modal-ajoutphoto-addphoto-container");
-const modalFormInputFileHidden = document.getElementById("modal-ajoutphoto-addphoto-hidden");
-const modalErrorField = document.getElementById("modal-ajoutphoto-errorfield");
-const modalAddPhotoButton = document.getElementById("modal-ajoutphoto-addphoto-button");
-const modalFormSelector = document.getElementById("modal-ajoutphoto-categorie");
-const modalSubmitButton = document.getElementById("modal-ajoutphoto-valider");
+const modalAddPhoto = document.getElementById("modal-addphoto");
+const modalContainer = document.getElementById("modal-addphoto__container");
+const modalCloseButton = document.getElementById("modal-addphoto__closeicon");
+const modalBackButton = document.getElementById("modal-addphoto__backicon");
+const modalForm = document.getElementById("modal-addphoto__form");
+const modalFormTitle = document.getElementById("modal-addphoto__form__title");
+const modalAddPhotoContainer = document.getElementById("modal-addphoto__form__picture-container");
+const modalFormInputFileHidden = document.getElementById("modal-addphoto__form__picture__hidden");
+const modalErrorField = document.getElementById("modal-addphoto__form__picture__errorfield");
+const modalAddPhotoButton = document.getElementById("modal-addphoto__form__picture__button");
+const modalFormSelector = document.getElementById("modal-addphoto__form__category");
+const modalSubmitButton = document.getElementById("modal-addphoto__form__submit");
 
 const maxUploadFileSize = 4194304;
 const authorisedUploadFileExtensions = ['png','jpg'];
@@ -129,7 +129,7 @@ function hideFileError() {
 
 function showContainerItems() {
     for (let i = 0; i < modalAddPhotoContainer.children.length; i++) {
-        if (modalAddPhotoContainer.children[i].id !== "modal-ajoutphoto-errorfield") {
+        if (modalAddPhotoContainer.children[i].id !== "modal-addphoto__form__picture__errorfield") {
             modalAddPhotoContainer.children[i].removeAttribute("style");
         }
     };
@@ -140,7 +140,7 @@ function showContainerItems() {
 function hideContainerItems() {
     hideFileError();
     for (let i = 0; i < modalAddPhotoContainer.children.length; i++) {
-        if (modalAddPhotoContainer.children[i].id !== "modal-ajoutphoto-errorfield") {
+        if (modalAddPhotoContainer.children[i].id !== "modal-addphoto__form__picture__errorfield") {
             modalAddPhotoContainer.children[i].style.display = "None";
         }
     };
@@ -151,7 +151,7 @@ function displayPreview(uploadedFile) {
     const previewImage = document.createElement("img");
     previewImage.setAttribute("src", URL.createObjectURL(uploadedFile));
     previewImage.setAttribute("alt", uploadedFile.name);
-    previewImage.setAttribute("id", "modal-ajoutphoto-preview");
+    previewImage.setAttribute("id", "modal-addphoto__form__picture__preview");
     
     hideContainerItems();
     modalAddPhotoContainer.appendChild(previewImage);
@@ -159,7 +159,7 @@ function displayPreview(uploadedFile) {
 
 
 function removePreview() {
-    let preview = document.getElementById("modal-ajoutphoto-preview");
+    let preview = document.getElementById("modal-addphoto__form__picture__preview");
     if (preview !== null) {
         preview.remove();
     }
@@ -167,16 +167,14 @@ function removePreview() {
 
 
 const checkFormChange = function () {
-    if ((modalFormInputFileHidden.files[0] !== undefined) && (modalFormTitle.value !== "") && (modalFormSelector.value !== "0")) {
-        activateSubmitButton();
+    console.log(modalFormTitle);
+    if (modalFormInputFileHidden.files[0] !== undefined && 
+        modalFormTitle.value !== "" &&
+        modalFormSelector.value !== "0") {
+        modalSubmitButton.classList.replace("button-disabled", "button-enabled");
     } else {
         desactivateSubmitButton();
     }
-}
-
-
-function activateSubmitButton() {
-    modalSubmitButton.classList.replace("button-disabled", "button-enabled");
 }
 
 
