@@ -24,6 +24,7 @@ async function displayGallery(works) {
         galleryElement.appendChild(image);
         galleryElement.appendChild(title);
     }
+    return works;
 }
 
 

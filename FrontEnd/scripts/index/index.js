@@ -50,29 +50,32 @@ function checkToken() {
             event.preventDefault();
             logoutFunction();
         });
+        return true;
     } else {
-        displayFilters();
+        return false;
     }
 }
 
 
-function setIndexListeners() {
+function setIndexListeners(works) {
     window.addEventListener('beforeunload', () => {
         window.localStorage.removeItem("token");
     });
 
     modifLink.addEventListener('click', (event) => {
         event.preventDefault();
-        openModalGallery();
+        openModalGallery(works);
     });
 }
 
 
 
 
+let works = await displayGallery();
+if (!checkToken()) {
+    displayFilters(works);
+};
 
-checkToken();
-displayGallery();
-setIndexListeners();
-setModalGalleryListeners();
-setModalAddPhotoListeners();
+setIndexListeners(works);
+setModalGalleryListeners(works);
+setModalAddPhotoListeners(works);

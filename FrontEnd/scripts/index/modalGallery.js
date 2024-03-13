@@ -1,6 +1,7 @@
 import { deleteItem } from "../utils/api.js";
-import { displayGallery, displayModalGallery } from "../utils/gallery.js";
+import { displayModalGallery } from "../utils/gallery.js";
 import { openModalAddPhoto } from "./modalAddPhoto.js";
+import { closeModals, modalPropagationStop } from "./modalCommons.js";
 
 
 const modalGallery = document.getElementById("modal-gallery");
@@ -10,42 +11,31 @@ const modalCloseButton = document.getElementById("modal-gallery__closeicon");
 
 
 
-async function openModalGallery() { 
+function openModalGallery(works) { 
     modalGallery.showModal();
-    let delButtonList = await displayModalGallery();
+    showModalGallery(works);
+}
+
+
+async function showModalGallery(works) {
+    let delButtonList = await displayModalGallery(works);
     setDeleteListeners(delButtonList);
 }
 
-
-function closeModalGallery() {
-    modalGallery.close();
-    displayGallery();
-}
-
-
-function setModalGalleryListeners() {
-    modalGallery.addEventListener("click", closeModalListener);
+function setModalGalleryListeners(works) {
+    modalGallery.addEventListener("click", closeModals);
     modalContainer.addEventListener("click", modalPropagationStop);
-    modalCloseButton.addEventListener("click", closeModalListener);
-    modalButton.addEventListener("click", openNextModal);
+    modalCloseButton.addEventListener("click", closeModals);
+    modalButton.addEventListener("click", openNextModal(works));
 }
 
 
-const closeModalListener = function(event) {
-    event.preventDefault();
-    closeModalGallery();
-}
-
-
-const modalPropagationStop = function(event) {
-    event.stopPropagation();
-}
-
-
-const openNextModal = function(event) {
-    event.preventDefault();
-    modalGallery.close();
-    openModalAddPhoto();
+function openNextModal(works) {
+    return function(event) {
+        event.preventDefault();
+        modalGallery.close();
+        openModalAddPhoto(works);
+    }
 }
 
 
@@ -61,7 +51,7 @@ function deleteGalleryItem(id) {
     return async function (event) {
         event.preventDefault();
         if (await deleteItem(id)) {
-            displayModalGallery();
+            showModalGallery();
         };
     }
 }

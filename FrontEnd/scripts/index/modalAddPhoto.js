@@ -1,6 +1,7 @@
 import { getContents, appendItem } from "../utils/api.js";
 import { openModalGallery } from "./modalGallery.js";
-import { displayGallery, getCategories } from "../utils/gallery.js";
+import { getCategories } from "../utils/gallery.js";
+import { closeModals, modalPropagationStop } from "./modalCommons.js";
 
 
 const modalAddPhoto = document.getElementById("modal-addphoto");
@@ -21,53 +22,36 @@ const authorisedUploadFileExtensions = ['png','jpg'];
 
 
 
-function openModalAddPhoto() {
+function openModalAddPhoto(works) {
     modalAddPhoto.showModal();
-    displayModalCategories();
-    showContainerItems();
-}
-
-
-function closeModalAddPhoto() {
-    modalAddPhoto.close();
-    removePreview();
-    showContainerItems();
+    displayModalCategories(works);
     modalForm.reset();
-    desactivateSubmitButton();
+    showContainerItems();
+    removePreview();
+    modalSubmitButton.classList.replace("button-enabled", "button-disabled");
 }
 
 
-function setModalAddPhotoListeners() {
-    modalAddPhoto.addEventListener("click", closeModalListener);
+function setModalAddPhotoListeners(works) {
+    modalAddPhoto.addEventListener("click", closeModals);
     modalContainer.addEventListener("click", modalPropagationStop);
-    modalCloseButton.addEventListener("click", closeModalListener);
-    modalBackButton.addEventListener("click", openLastModal);
+    modalCloseButton.addEventListener("click", closeModals);
+    modalBackButton.addEventListener("click", openLastModal(works));
     modalAddPhotoButton.addEventListener("click", addPhoto);
     modalFormInputFileHidden.addEventListener("change", checkNewPhoto);
-    modalFormInputFileHidden.addEventListener("change", checkFormChange);
-    modalFormTitle.addEventListener("change", checkFormChange);
-    modalFormSelector.addEventListener("change", checkFormChange);
+    modalForm.addEventListener("change", checkFormChange);
+    modalSubmitButton.classList.replace("button-enabled", "button-disabled");
     modalSubmitButton.addEventListener("click", submitNewPhoto);
-    desactivateSubmitButton();
 }
 
 
-const closeModalListener = function(event) {
-    event.preventDefault();
-    closeModalAddPhoto();
-    displayGallery();
-}
-
-
-const modalPropagationStop = function(event) {
-    event.stopPropagation();
-}
-
-
-const openLastModal = function(event) {
-    event.preventDefault();
-    closeModalAddPhoto();
-    openModalGallery();
+function openLastModal(works) {
+    return function (event) {
+        event.preventDefault();
+        console.log(works);
+        modalAddPhoto.close();
+        openModalGallery(works);
+    }
 }
 
 
@@ -76,8 +60,8 @@ const addPhoto = function() {
 }
 
 
-async function displayModalCategories() {
-    let filtres = getCategories(await getContents());
+function displayModalCategories(works) {
+    let filtres = getCategories(works);
     modalFormSelector.innerHTML = "";
 
     let optionText = "";
@@ -167,19 +151,13 @@ function removePreview() {
 
 
 const checkFormChange = function () {
-    console.log(modalFormTitle);
     if (modalFormInputFileHidden.files[0] !== undefined && 
         modalFormTitle.value !== "" &&
         modalFormSelector.value !== "0") {
         modalSubmitButton.classList.replace("button-disabled", "button-enabled");
     } else {
-        desactivateSubmitButton();
+        modalSubmitButton.classList.replace("button-enabled", "button-disabled");
     }
-}
-
-
-function desactivateSubmitButton() {
-    modalSubmitButton.classList.replace("button-enabled", "button-disabled");
 }
 
 
@@ -188,12 +166,11 @@ const submitNewPhoto = async function(event) {
     if (modalSubmitButton.classList.contains("button-enabled")) {
         let isOk = await appendItem(modalFormInputFileHidden.files[0], modalFormTitle.value, modalFormSelector.value);
         if (isOk) {
-            closeModalAddPhoto();
-            displayGallery();
+            closeModals(event);
         }
     }
 }
 
 
 
-export { openModalAddPhoto, setModalAddPhotoListeners };
+export { openModalAddPhoto, setModalAddPhotoListeners, showContainerItems };

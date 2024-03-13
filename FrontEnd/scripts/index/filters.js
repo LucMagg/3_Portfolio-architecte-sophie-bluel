@@ -6,12 +6,14 @@ const filterContainer = document.getElementById("portfolio__filters");
 
 
 
-async function displayFilters() {
-    const works = await getContents();
+async function displayFilters(works) {
+    if (works === undefined) {
+        works = await getContents();
+    }
+
     let filterList = getCategories(works);
     
     filterContainer.innerHTML = "";
-
     for (let i = 0; i < filterList.length; i++) {
         /* Construction du html de chaque filtre */
         const filterButton = document.createElement("button");
