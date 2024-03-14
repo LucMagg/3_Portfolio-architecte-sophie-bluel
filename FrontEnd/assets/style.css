@@ -76,6 +76,7 @@ section {
 a {
     color: inherit;
     text-decoration: none;
+	transition-duration: 0.5s;
 }
 
 h1 {
@@ -113,6 +114,7 @@ nav li {
 }
 
 li:hover, a:hover {
+	transition-duration: 500ms;
 	color: #B1663C;
 }
 
@@ -169,7 +171,6 @@ li:hover, a:hover {
 
 #contact > *, #login-container > * {
 	text-align: center;
-
 }
 
 #contact h2, #login-container h2 {
@@ -210,9 +211,9 @@ li:hover, a:hover {
 	border-radius: 60px;
 }
 
-input[type="submit"]:hover {
+#contact input[type="submit"]:hover, #login-form input[type="submit"]:hover {
+	transition-duration: 500ms;
 	background-color: #0E2F28;
-	;
 }
 
 footer nav ul {
@@ -249,9 +250,11 @@ footer nav ul {
 	border-radius: 60px;
 	border: 1px solid #1D6154;
 	padding: 0.8em 1.8em;
+	transition-duration: 0.5s;
 }
 
 .portfolio__filters__button:hover {
+	transition-duration: 500ms;
 	color: #FFFFFF;
 	background-color: #1D6154;
 }
@@ -276,6 +279,10 @@ footer nav ul {
 	height: 3em;
 	padding-top: 1.5em;
 	text-align: center;
+}
+
+#login-container .error-visible {
+	transition-duration: 500ms;
 	background-color: rgba(255,0,0,0.1);
 	color: #FF0000;
 }
@@ -314,14 +321,16 @@ footer nav ul {
 	padding: 0;
 	width: 630px;
 	height: 670px;
-	/*position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);*/
+	animation: modal-open 250ms both;
 }
 
+
 .modal::backdrop {
-	background: rgba(0,0,0,0.3);
+	background-color: rgba(0,0,0,0.3);
+}
+
+.modal-not-visible {
+	animation: modal-close 250ms both;
 }
 
 .modal-container {
@@ -409,9 +418,11 @@ footer nav ul {
 	border: 1px solid #1D6154;
 	height: inherit;
 	padding: 0.8em 1.8em;
+	transition-duration: 0.5s;
 }
 
 .modal-button:hover {
+	transition-duration: 500ms;
 	background-color: #0E2F28;
 }
 
@@ -441,6 +452,10 @@ footer nav ul {
 	height: 2.8em;
 	padding-top: 1.6em;
 	text-align: center;
+}
+
+#modal-addphoto__form .error-visible {
+	transition-duration: 500ms;
 	background-color: rgba(255,0,0,0.1);
 	color: #FF0000;
 }
@@ -473,9 +488,11 @@ footer nav ul {
 	height: 36px;
 	padding: 0.8em 1.8em;
 	position: relative;
+	transition-duration: 0.5s;
 }
 
 #modal-addphoto__form__picture__button:hover {
+	transition-duration: 500ms;
 	color: #CBD6DC;
 	background-color: #306685;
 }
@@ -494,6 +511,7 @@ footer nav ul {
 #modal-addphoto__form .button-disabled {
 	background-color: #A7A7A7;
 	border-color: #A7A7A7;
+	transition-duration: 0.5s;
 }
 
 #modal-addphoto__form .button-disabled:hover {
@@ -505,15 +523,39 @@ footer nav ul {
 	color: #FFFFFF;
 	background-color: #1D6154;
 	border-color: #1D6154;
+	transition-duration: 0.5s;
 }
 
 #modal-addphoto__form .button-enabled:hover {
+	transition-duration: 500ms;
 	background-color: #0E2F28;
-	/*border-color: #0E2F28;*/
+	border-color: #0E2F28;
 }
 
 #modal-addphoto__form__picture__preview {
 	height: 100%;
 	width: 34%;
 	object-fit: cover;
+}
+
+@keyframes modal-open {
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes modal-close {
+	from {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	to {
+		transform: translateY(100%);
+		opacity: 0;
+	}
 }

@@ -23,6 +23,7 @@ const authorisedUploadFileExtensions = ['png','jpg'];
 
 
 function openModalAddPhoto(works) {
+    modalAddPhoto.classList.remove("modal-not-visible");
     modalAddPhoto.showModal();
     displayModalCategories(works);
     modalForm.reset();
@@ -48,9 +49,11 @@ function setModalAddPhotoListeners(works) {
 function openLastModal(works) {
     return function (event) {
         event.preventDefault();
-        console.log(works);
-        modalAddPhoto.close();
-        openModalGallery(works);
+        modalAddPhoto.classList.add("modal-not-visible");
+        window.setTimeout(() => {
+            modalAddPhoto.close();
+            openModalGallery(works);
+        }, 250);
     }
 }
 
@@ -98,14 +101,14 @@ const checkNewPhoto = function() {
 
 function displayFileError(message) {
     modalFormInputFileHidden.value = "";
-    modalErrorField.removeAttribute("style");
+    modalErrorField.classList.add("error-visible");
     modalErrorField.innerHTML = message;
     modalAddPhotoContainer.querySelector("i").style.opacity = "0";
 }
 
 
 function hideFileError() {
-    modalErrorField.style.display = "None";
+    modalErrorField.classList.remove("error-visible");
     modalErrorField.innerHTML = "";
     modalAddPhotoContainer.querySelector("i").removeAttribute("style");
 }

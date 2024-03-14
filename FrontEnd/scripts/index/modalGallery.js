@@ -11,7 +11,8 @@ const modalCloseButton = document.getElementById("modal-gallery__closeicon");
 
 
 
-function openModalGallery(works) { 
+function openModalGallery(works) {
+    modalGallery.classList.remove("modal-not-visible");
     modalGallery.showModal();
     showModalGallery(works);
 }
@@ -33,8 +34,11 @@ function setModalGalleryListeners(works) {
 function openNextModal(works) {
     return function(event) {
         event.preventDefault();
-        modalGallery.close();
-        openModalAddPhoto(works);
+        modalGallery.classList.add("modal-not-visible");
+        window.setTimeout(() => {
+            modalGallery.close();
+            openModalAddPhoto(works);
+        }, 250);
     }
 }
 

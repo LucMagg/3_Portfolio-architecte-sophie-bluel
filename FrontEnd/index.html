@@ -73,7 +73,7 @@
 			</section>
 
 			<!-- Partie modales -->
-			<dialog id="modal-gallery" class="modal" aria-labelledby="modal-gallery__title">
+			<dialog id="modal-gallery" class="modal modal-not-visible" aria-labelledby="modal-gallery__title">
 				<div id="modal-gallery__container" class="modal-container">
 					<p id="modal-gallery__title" class="modal-title">Galerie photo</p>
 					<a id="modal-gallery__closeicon" href= "" class="modal-closeicon">
@@ -90,7 +90,7 @@
 				</div>
 			</dialog>
 
-			<dialog id="modal-addphoto" class="modal" aria-labelledby="modal-addphoto__title">
+			<dialog id="modal-addphoto" class="modal modal-not-visible" aria-labelledby="modal-addphoto__title">
 				<div id="modal-addphoto__container" class="modal-container">
 					<p id="modal-addphoto__title" class="modal-title">Ajout photo</p>
 					<a id="modal-addphoto__backicon" href= "">
@@ -104,7 +104,7 @@
 					<form id="modal-addphoto__form" action="#" method="post">				
 						<div id="modal-addphoto__form__picture-container">
 							<i class="fa-regular fa-image icon-picture"></i>
-							<p id="modal-addphoto__form__picture__errorfield" style="display: none;"></p>
+							<p id="modal-addphoto__form__picture__errorfield"></p>
 							<button id="modal-addphoto__form__picture__button" type="button" value="Ajouter photo">+ Ajouter photo</button>
 							<input id="modal-addphoto__form__picture__hidden" type="file" accept=".jpg, .png" tabindex="-1">
 							<p id="modal-addphoto__form__picture__info">jpg, png : 4mo max</p>

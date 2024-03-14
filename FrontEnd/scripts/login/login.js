@@ -29,7 +29,7 @@ const submitLogin = async function (event) {
             returnMessage = serverResponse[1];
         } else {
             errorField.innerHTML = "";
-            errorField.style.display = "none";
+            errorField.classList.remove("error-visible");
             window.localStorage.setItem("token", serverResponse[1]);
             location.replace("index.html");
         }
@@ -37,7 +37,7 @@ const submitLogin = async function (event) {
 
     if (returnMessage !== "") {
         errorField.innerHTML = returnMessage;
-        errorField.removeAttribute("style");
+        errorField.classList.add("error-visible");
     }
 }
 
