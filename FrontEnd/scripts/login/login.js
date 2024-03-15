@@ -7,7 +7,7 @@ const errorField = document.getElementById("login-container__errorfield");
 
 const submitLogin = async function (event) {
     event.preventDefault();
-    
+       
     let returnMessage = "";
     /* Check des potentielles erreurs du formulaire de login */
     let emailValue = event.target.querySelector("[name=email]").value;
@@ -17,11 +17,10 @@ const submitLogin = async function (event) {
     } else if (emailRegex.test(emailValue) === false) {
         returnMessage = "Veuillez entrer une adresse e-mail valide";
     }
-    let passwordValue = event.target.querySelector("[name=password]").value
+    let passwordValue = event.target.querySelector("[name=password]").value;
     if (passwordValue === "" && returnMessage === "") {
         returnMessage = "Veuillez entrer un mot de passe";
     }
-    /* Ici on peut rajouter des conditions pour le mot de passe (taille minimum, caractères obligatoires...) */
 
     if (returnMessage === "") {
         let serverResponse = await checkLogin(emailValue, passwordValue);

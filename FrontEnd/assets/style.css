@@ -538,6 +538,7 @@ footer nav ul {
 	object-fit: cover;
 }
 
+/* Animations */
 @keyframes modal-open {
 	from {
 		transform: translateY(-100%);

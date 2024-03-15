@@ -1,4 +1,4 @@
-import { getContents, appendItem } from "../utils/api.js";
+import { appendItem } from "../utils/api.js";
 import { openModalGallery } from "./modalGallery.js";
 import { getCategories } from "../utils/gallery.js";
 import { closeModals, modalPropagationStop } from "./modalCommons.js";

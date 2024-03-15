@@ -59,10 +59,10 @@ async function displayModalGallery(works) {
         delButton.setAttribute("type", "button");
         delButton.setAttribute("class", "modal-gallery__gallerydisplay__item__deletebutton");
         delButton.setAttribute("id", "modal-gallery__gallerydisplay__item__deletebutton#" + works[i].id);
+        delButton.setAttribute("aria-label", "Supprimer la photo");
         let icon = document.createElement("i");
         icon.setAttribute("class","fa-solid fa-trash-can trash-icon");
         icon.setAttribute("aria-hidden", "true");
-        icon.setAttribute("aria-label", "Supprimer la photo");
         
         /* Ajout dans le DOM */
         modalGalleryDisplay.appendChild(galleryElement);
